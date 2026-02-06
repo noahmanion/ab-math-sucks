@@ -670,6 +670,73 @@ input:checked + .toggle-slider:before {
 }
 
 /* ============================================================================
+   SOFTPATH CTA
+   ============================================================================ */
+
+.softpath-cta {
+  margin: 3rem 0;
+  padding: 2rem;
+  border: 2px solid var(--accent-color);
+  background-color: var(--callout-bg);
+}
+
+.softpath-cta h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.softpath-cta p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition);
+  letter-spacing: 0.02em;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  color: white;
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .softpath-cta {
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .cta-button {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .softpath-cta h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================================================
    PRINT STYLES
    ============================================================================ */
 

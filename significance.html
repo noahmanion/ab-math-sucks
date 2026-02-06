@@ -3,15 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Determine the statistical significance of your A/B test results using a two-proportion z-test">
 
-  <!-- Meta tags for social sharing -->
-  <meta property="og:title" content="A/B Test Significance Calculator">
-  <meta property="og:description" content="Test whether your A/B test results are statistically significant">
+  <!-- Primary Meta Tags -->
+  <title>A/B Test Significance Calculator - AB Math Sucks</title>
+  <meta name="title" content="A/B Test Significance Calculator - AB Math Sucks">
+  <meta name="description" content="Determine if your A/B test results are statistically significant. Two-proportion z-test with proper p-value calculation.">
+  <meta name="keywords" content="statistical significance, p-value calculator, a/b test results, two-proportion z-test, hypothesis testing">
+  <meta name="author" content="Noah Manion">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://abmathsucks.com/significance.html">
+
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="">
+  <meta property="og:url" content="https://abmathsucks.com/significance.html">
+  <meta property="og:site_name" content="AB Math Sucks">
+  <meta property="og:title" content="A/B Test Significance Calculator - Did Your Test Actually Work?">
+  <meta property="og:description" content="Find out if your A/B test proved anything or if you just got lucky. Statistical significance calculator with honest interpretation.">
+  <meta property="og:image" content="https://abmathsucks.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AB Math Sucks - A/B Test Significance Calculator">
 
-  <title>A/B Test Significance Calculator</title>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://abmathsucks.com/significance.html">
+  <meta name="twitter:title" content="A/B Test Significance Calculator - AB Math Sucks">
+  <meta name="twitter:description" content="Determine if your A/B test results are statistically significant. Honest interpretation included.">
+  <meta name="twitter:image" content="https://abmathsucks.com/og-image.png">
+  <meta name="twitter:image:alt" content="AB Math Sucks - A/B Test Significance Calculator">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#dc2626">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +46,30 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AB Math Sucks - Statistical Significance Calculator",
+    "url": "https://abmathsucks.com/significance.html",
+    "description": "Determine if your A/B test results are statistically significant using a two-proportion z-test. Free calculator with honest result interpretation.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Noah Manion",
+      "url": "https://softpath.com"
+    },
+    "browserRequirements": "Requires JavaScript enabled"
+  }
+  </script>
 </head>
 <body>
   <div class="container">
@@ -131,6 +182,13 @@
       <!-- Copy button -->
       <button class="copy-button" id="sig-copy-button">Copy results</button>
 
+      <!-- Softpath CTA -->
+      <aside class="softpath-cta" id="softpath-cta">
+        <h3>Building an experimentation culture?</h3>
+        <p>If you're trying to scale A/B testing beyond one-off projects, I help teams build sustainable experimentation programs. Strategy, tooling, training, and statistical guidance.</p>
+        <a href="https://softpath.com" target="_blank" rel="noopener noreferrer" class="cta-button" id="significance-cta">Learn about Softpath</a>
+      </aside>
+
       <!-- How it works -->
       <details class="how-it-works">
         <summary id="sig-how-it-works-title">How this works</summary>
@@ -151,9 +209,18 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p>Built by <a href="#" target="_blank">Noah Manion</a></p>
+      <p>Built by <a href="about.html">Noah Manion</a> | <a href="privacy.html">Privacy Policy</a></p>
     </footer>
   </div>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWKL187VF7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WWKL187VF7');
+  </script>
 
   <script src="calculator.js"></script>
 </body>

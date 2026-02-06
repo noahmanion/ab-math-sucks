@@ -717,6 +717,16 @@ function updateResults() {
 
   // Update duration message
   document.getElementById('duration-message').textContent = getDurationMessage(results.durationDays);
+
+  // Track calculation completion
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'calculation_complete', {
+      'calculator': 'duration',
+      'duration_days': results.durationDays,
+      'variants': state.inputs.variants,
+      'tone': state.tone
+    });
+  }
 }
 
 function updateCallouts() {
@@ -851,6 +861,16 @@ function updateSignificanceResults() {
   const msgEl = document.getElementById('significance-message');
   if (msgEl) msgEl.textContent = message;
 
+  // Track calculation completion
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'calculation_complete', {
+      'calculator': 'significance',
+      'is_significant': results.isSignificant,
+      'is_positive': results.isPositive,
+      'tone': state.tone
+    });
+  }
+
   // Check for suspiciously perfect results
   if (results.pValue < 0.001) {
     const callouts = [];
@@ -981,6 +1001,15 @@ function handleInputChange(event) {
 function handleToneToggle(event) {
   state.tone = event.target.checked ? 'nice' : 'aggressive';
   saveToneToStorage(state.tone);
+
+  // Track tone switch
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'tone_switched', {
+      'tone': state.tone,
+      'page': 'duration'
+    });
+  }
+
   updateAllCopy();
   updateResults();
   updateCallouts();
@@ -1007,6 +1036,15 @@ Results:
 ${message}`;
 
   navigator.clipboard.writeText(text).then(() => {
+    // Track successful copy
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'results_copied', {
+        'calculator': 'duration',
+        'tone': state.tone,
+        'duration_days': durationDays
+      });
+    }
+
     // Show brief feedback
     const button = document.getElementById('copy-button');
     const originalText = button.textContent;
@@ -1026,6 +1064,15 @@ function handleSignificanceInputChange(event) {
 function handleSignificanceToneToggle(event) {
   state.tone = event.target.checked ? 'nice' : 'aggressive';
   saveToneToStorage(state.tone);
+
+  // Track tone switch
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'tone_switched', {
+      'tone': state.tone,
+      'page': 'significance'
+    });
+  }
+
   updateSignificanceCopy();
   updateSignificanceResults();
 }
@@ -1057,6 +1104,15 @@ Statistically Significant: ${results.isSignificant ? 'Yes' : 'No'}
 ${message}`;
 
   navigator.clipboard.writeText(text).then(() => {
+    // Track successful copy
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'results_copied', {
+        'calculator': 'significance',
+        'tone': state.tone,
+        'is_significant': results.isSignificant
+      });
+    }
+
     // Show brief feedback
     const button = document.getElementById('sig-copy-button');
     if (!button) return;
@@ -1098,6 +1154,18 @@ function initDurationCalculator() {
   const copyButton = document.getElementById('copy-button');
   if (copyButton) copyButton.addEventListener('click', handleCopyResults);
 
+  // Track CTA clicks
+  const resultsCta = document.getElementById('duration-cta');
+  if (resultsCta) {
+    resultsCta.addEventListener('click', function() {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'cta_clicked', {
+          'location': 'duration_results'
+        });
+      }
+    });
+  }
+
   // Initial render
   updateAllCopy();
   updateResults();
@@ -1130,6 +1198,18 @@ function initSignificanceCalculator() {
   const copyButton = document.getElementById('sig-copy-button');
   if (copyButton) {
     copyButton.addEventListener('click', handleSignificanceCopyResults);
+  }
+
+  // Track CTA clicks
+  const resultsCta = document.getElementById('significance-cta');
+  if (resultsCta) {
+    resultsCta.addEventListener('click', function() {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'cta_clicked', {
+          'location': 'significance_results'
+        });
+      }
+    });
   }
 
   // Initial render

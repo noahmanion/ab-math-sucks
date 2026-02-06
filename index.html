@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- This is a comment to test a dumb workflow, again -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Calculate how long your A/B test needs to run with statistical rigor">
 
-  <!-- Meta tags for social sharing -->
-  <meta property="og:title" content="A/B Test Duration Calculator">
-  <meta property="og:description" content="Calculate the optimal duration for your A/B tests based on statistical power and sample size requirements">
+  <!-- Primary Meta Tags -->
+  <title>A/B Test Duration Calculator - AB Math Sucks</title>
+  <meta name="title" content="A/B Test Duration Calculator - AB Math Sucks">
+  <meta name="description" content="Calculate how long your A/B test will actually take. Honest math for realistic timelines. No signup, no BS.">
+  <meta name="keywords" content="a/b testing, sample size calculator, test duration, statistical significance, conversion rate optimization, CRO">
+  <meta name="author" content="Noah Manion">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://abmathsucks.com/">
+
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="">
+  <meta property="og:url" content="https://abmathsucks.com/">
+  <meta property="og:site_name" content="AB Math Sucks">
+  <meta property="og:title" content="A/B Test Duration Calculator - Find Out How Long Your Test Will Actually Take">
+  <meta property="og:description" content="Brutally honest A/B test duration estimates using proper statistical formulas. Calculate sample size and test timeline with realistic expectations.">
+  <meta property="og:image" content="https://abmathsucks.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AB Math Sucks - A/B Test Duration Calculator">
 
-  <title>A/B Test Duration Calculator</title>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://abmathsucks.com/">
+  <meta name="twitter:title" content="A/B Test Duration Calculator - AB Math Sucks">
+  <meta name="twitter:description" content="Calculate how long your A/B test will actually take. Honest math for realistic timelines.">
+  <meta name="twitter:image" content="https://abmathsucks.com/og-image.png">
+  <meta name="twitter:image:alt" content="AB Math Sucks - A/B Test Duration Calculator">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#dc2626">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +46,30 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AB Math Sucks - A/B Test Duration Calculator",
+    "url": "https://abmathsucks.com/",
+    "description": "Calculate how long your A/B test needs to run with statistical rigor. Free, privacy-first calculator for realistic test duration estimates.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Noah Manion",
+      "url": "https://softpath.com"
+    },
+    "browserRequirements": "Requires JavaScript enabled"
+  }
+  </script>
 </head>
 <body>
   <div class="container">
@@ -126,6 +176,13 @@
       <!-- Copy button -->
       <button class="copy-button" id="copy-button">Copy this reality check</button>
 
+      <!-- Softpath CTA -->
+      <aside class="softpath-cta" id="softpath-cta">
+        <h3>Running a lot of these tests?</h3>
+        <p>If you're building an experimentation program and need help with test velocity, statistical rigor, or organizational buy-in, I work with teams on this exact problem.</p>
+        <a href="https://softpath.com" target="_blank" rel="noopener noreferrer" class="cta-button" id="duration-cta">Learn about Softpath</a>
+      </aside>
+
       <!-- How it works -->
       <details class="how-it-works">
         <summary id="how-it-works-title">How this works (if you care)</summary>
@@ -146,9 +203,18 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <p>Built by <a href="#" target="_blank">Noah Manion</a></p>
+      <p>Built by <a href="about.html">Noah Manion</a> | <a href="privacy.html">Privacy Policy</a></p>
     </footer>
   </div>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWKL187VF7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WWKL187VF7');
+  </script>
 
   <script src="calculator.js"></script>
 </body>
