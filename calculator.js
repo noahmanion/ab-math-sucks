@@ -203,6 +203,61 @@ COPY.aggressive.significance = {
   copyButton: "Copy this result"
 };
 
+// Nice version of significance
+COPY.nice.significance = {
+  header: {
+    title: "A/B Test Significance Calculator",
+    subtitle: "Determine the statistical significance of your test results"
+  },
+  toggle: {
+    label: "Unhinged Mode"
+  },
+  inputs: {
+    controlVisitors: "Control group visitors",
+    controlConversions: "Control group conversions",
+    variantVisitors: "Variant group visitors",
+    variantConversions: "Variant group conversions",
+    significanceLevel: "Significance level"
+  },
+  results: {
+    prefix: "Results",
+    controlCRLabel: "Control conversion rate",
+    variantCRLabel: "Variant conversion rate",
+    relativeLiftLabel: "Relative lift",
+    absoluteLiftLabel: "Absolute lift",
+    pValueLabel: "P-value",
+    significanceLabel: "Statistical significance",
+    confidenceIntervalLabel: "95% confidence interval"
+  },
+  messages: {
+    sigPositiveLarge: "Statistically significant result. Your variant outperformed control with {confidence}% confidence (p-value: {pValue}). This is a substantial improvement. Consider validating your tracking implementation.",
+    sigPositiveMedium: "Statistically significant result. Your variant outperformed control with {confidence}% confidence (p-value: {pValue}). This result is unlikely to be due to chance.",
+    sigPositiveSmall: "Statistically significant result. Your variant outperformed control with {confidence}% confidence (p-value: {pValue}). While the lift is modest, it is statistically reliable.",
+    sigNegative: "Control outperformed variant. The original experience performed better with {confidence}% confidence (p-value: {pValue}). Consider analyzing why the variant underperformed.",
+    notSigClose: "Result not statistically significant. With a p-value of {pValue}, we cannot conclude the variant performed differently from control. The result approaches significance. Consider extending the test if practical.",
+    notSigFar: "Result not statistically significant. With a p-value of {pValue}, we cannot conclude the variant performed differently from control. The observed difference is likely due to random variation.",
+    noDifference: "No difference detected. Control and variant have identical conversion rates (p = 1.0)."
+  },
+  realityCheck: {
+    sampleAdequacy: "Your sample size was sufficient to detect effects of {minEffect}% or larger at your chosen significance level.",
+    minSampleWarning: "With these sample sizes, you had limited statistical power. Results should be interpreted with caution.",
+    practicalImpact: "If you maintain {traffic} monthly visitors, this {lift}% lift means approximately {impact} additional conversions per month."
+  },
+  callouts: {
+    mismatchedSamples: "Note: Unequal sample sizes may reduce statistical power. Consider investigating the cause.",
+    zeroConversions: "Zero conversions detected in {group}. Verify tracking is implemented correctly.",
+    conversionsExceedVisitors: "Conversion count exceeds visitor count. Please verify your inputs.",
+    verySmallSample: "Very small sample sizes detected. Results should be interpreted with extreme caution.",
+    perfectResults: "Extremely significant results warrant verification of test implementation and data accuracy.",
+    highBaseline: "Note: Very high conversion rates may affect the reliability of the normal approximation used in this calculation."
+  },
+  howItWorks: {
+    title: "How this works",
+    content: ""
+  },
+  copyButton: "Copy results"
+};
+
 // ============================================================================
 // Z-SCORE MAPPINGS
 // ============================================================================
@@ -873,9 +928,17 @@ function setupCrossTabSync() {
       if (toggle) {
         toggle.checked = (e.newValue === 'nice');
       }
-      updateAllCopy();
-      updateResults();
-      updateCallouts();
+
+      // Detect which page we're on and update accordingly
+      const page = detectPage();
+      if (page === 'significance') {
+        updateSignificanceCopy();
+        updateSignificanceResults();
+      } else {
+        updateAllCopy();
+        updateResults();
+        updateCallouts();
+      }
     }
   });
 }
