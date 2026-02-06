@@ -48,7 +48,24 @@ It's three files. Open `index.html` in a browser. That's it. No npm install, no 
 
 ## Deploying
 
+Deployment is automated via GitHub Actions. Push to the `main` branch and your changes will automatically deploy to Firebase Hosting.
+
+### Automatic deployment (CI/CD)
+
+1. Push to `main` branch
+2. GitHub Actions automatically runs the deployment workflow
+3. Files are copied to the `public/` directory and deployed to Firebase
+4. Check the Actions tab on GitHub to monitor deployment status
+
+### Manual deployment
+
+If you need to deploy manually:
+
 ```bash
+# Copy source files to public directory
+cp index.html calculator.js styles.css public/
+
+# Deploy to Firebase
 firebase deploy
 ```
 
