@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate how long your A/B test needs to run with statistical rigor">
+
+  <!-- Meta tags for social sharing -->
+  <meta property="og:title" content="A/B Test Duration Calculator">
+  <meta property="og:description" content="Calculate the optimal duration for your A/B tests based on statistical power and sample size requirements">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+
+  <title>A/B Test Duration Calculator</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header with tone toggle -->
+    <header class="header">
+      <div class="header-content">
+        <h1 id="page-title">Should You Even Bother?</h1>
+        <p id="page-subtitle">A reality check for your testing roadmap</p>
+      </div>
+      <div class="toggle-container">
+        <label class="toggle">
+          <input type="checkbox" id="tone-toggle" aria-label="Toggle between aggressive and nice mode">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label" id="toggle-label">Stakeholder-Safe Mode</span>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Calculator inputs -->
+      <section class="inputs-section">
+        <div class="input-group">
+          <label for="baseline-cr" id="label-baseline">What's your current conversion rate? (Be honest)</label>
+          <div class="input-wrapper">
+            <input type="number" id="baseline-cr" value="3" min="0" max="100" step="0.1" aria-label="Baseline conversion rate">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="mde" id="label-mde">Smallest lift you'd actually care about</label>
+          <div class="input-wrapper">
+            <input type="number" id="mde" value="10" min="0" max="1000" step="0.1" aria-label="Minimum detectable effect">
+            <span class="input-suffix">% relative lift</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="traffic" id="label-traffic">How much traffic do you actually have?</label>
+          <div class="input-wrapper">
+            <input type="number" id="traffic" value="10000" min="0" step="1" aria-label="Daily traffic">
+            <span class="input-suffix">visitors/day</span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="variants" id="label-variants">How many variants are you trying to cram in?</label>
+          <div class="input-wrapper">
+            <input type="number" id="variants" value="2" min="1" max="100" step="1" aria-label="Number of variants">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="significance" id="label-significance">How sure do you need to be? (95% is fine, you're not curing cancer)</label>
+          <select id="significance" aria-label="Statistical significance level">
+            <option value="0.90">90% significance</option>
+            <option value="0.95" selected>95% significance</option>
+            <option value="0.99">99% significance</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="power" id="label-power">Statistical power (just leave this alone)</label>
+          <select id="power" aria-label="Statistical power">
+            <option value="0.80" selected>80% power</option>
+            <option value="0.90">90% power</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Results display -->
+      <section class="results-section">
+        <h2 id="results-prefix">The Verdict</h2>
+        <div class="result-main">
+          <div class="result-item">
+            <span class="result-label" id="label-samples">Samples per variant</span>
+            <span class="result-value" id="value-samples">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label" id="label-total">Total samples needed</span>
+            <span class="result-value" id="value-total">—</span>
+          </div>
+          <div class="result-item highlight">
+            <span class="result-label" id="label-duration">Test duration</span>
+            <span class="result-value-large" id="value-duration">—</span>
+          </div>
+        </div>
+        <p class="duration-message" id="duration-message"></p>
+      </section>
+
+      <!-- Conditional callouts -->
+      <section class="callouts-section" id="callouts-section" style="display: none;">
+        <h3>Reality Check</h3>
+        <div id="callout-content"></div>
+      </section>
+
+      <!-- Copy button -->
+      <button class="copy-button" id="copy-button">Copy this reality check</button>
+
+      <!-- How it works -->
+      <details class="how-it-works">
+        <summary id="how-it-works-title">How this works (if you care)</summary>
+        <div class="how-it-works-content" id="how-it-works-content">
+          <p>This calculator uses the standard formula for determining sample size in a two-proportion z-test:</p>
+          <p class="formula">n = (Z<sub>α/2</sub> + Z<sub>β</sub>)² × [p₁(1-p₁) + p₂(1-p₂)] / (p₁ - p₂)²</p>
+          <p>Where:</p>
+          <ul>
+            <li><strong>p₁</strong> is your baseline conversion rate</li>
+            <li><strong>p₂</strong> is the expected improved rate (baseline × MDE)</li>
+            <li><strong>Z<sub>α/2</sub></strong> is the z-score for your significance level</li>
+            <li><strong>Z<sub>β</sub></strong> is the z-score for your statistical power</li>
+          </ul>
+          <p>For multiple variants, we apply a Bonferroni correction to maintain the overall significance level. The duration is calculated by dividing the total required samples by your daily traffic and rounding up to whole days.</p>
+        </div>
+      </details>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built by <a href="#" target="_blank">Noah Manion</a></p>
+    </footer>
+  </div>
+
+  <script src="calculator.js"></script>
+</body>
+</html>
