@@ -66,4 +66,4 @@ MIT. Do whatever you want with it.
 
 ## Credits
 
-Built by [Your Name]. Fueled by the memory of every test that "should have only taken two weeks."
+Built by Claude Code. Fueled by the memory of every test that "should have only taken two weeks."
