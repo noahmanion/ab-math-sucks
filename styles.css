@@ -142,6 +142,37 @@ sub {
   margin: 0;
 }
 
+/* ============================================================================
+   PAGE NAVIGATION
+   ============================================================================ */
+
+.page-nav {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link.active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
 .toggle-container {
   display: flex;
   align-items: center;
@@ -313,6 +344,37 @@ select ~ .input-suffix {
   background-color: var(--bg-color);
   border-left: 4px solid var(--accent-color);
   margin: 0;
+}
+
+.significance-message {
+  font-style: italic;
+  color: var(--text-primary);
+  padding: 1rem;
+  background-color: var(--bg-color);
+  border-left: 4px solid var(--accent-color);
+  margin: 0;
+}
+
+/* ============================================================================
+   EDGE CASES SECTION
+   ============================================================================ */
+
+.edge-cases-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--accent-color);
+  background-color: var(--callout-bg);
+}
+
+.edge-cases-section .callout-item {
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--accent-color);
+  color: var(--text-primary);
+}
+
+.edge-cases-section .callout-item:last-child {
+  margin-bottom: 0;
 }
 
 /* ============================================================================
@@ -513,6 +575,15 @@ input:checked + .toggle-slider:before {
 
   .toggle-container {
     justify-content: space-between;
+  }
+
+  .page-nav {
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
   }
 
   .result-main {

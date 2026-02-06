@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Determine the statistical significance of your A/B test results using a two-proportion z-test">
+
+  <!-- Meta tags for social sharing -->
+  <meta property="og:title" content="A/B Test Significance Calculator">
+  <meta property="og:description" content="Test whether your A/B test results are statistically significant">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+
+  <title>A/B Test Significance Calculator</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header with tone toggle -->
+    <header class="header">
+      <div class="header-content">
+        <h1 id="sig-page-title">A/B Test Significance Calculator</h1>
+        <p id="sig-page-subtitle">Determine the statistical significance of your test results</p>
+      </div>
+      <div class="toggle-container">
+        <label class="toggle">
+          <input type="checkbox" id="tone-toggle" aria-label="Toggle between aggressive and nice mode">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label" id="toggle-label">Unhinged Mode</span>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="page-nav">
+      <a href="index.html" class="nav-link">Duration Calculator</a>
+      <a href="significance.html" class="nav-link">Significance Calculator</a>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Calculator inputs -->
+      <section class="inputs-section">
+        <div class="input-group">
+          <label for="control-visitors" id="label-control-visitors">Control group visitors</label>
+          <div class="input-wrapper">
+            <input type="number" id="control-visitors" value="10000" min="0" step="1" aria-label="Control group visitors">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="control-conversions" id="label-control-conversions">Control group conversions</label>
+          <div class="input-wrapper">
+            <input type="number" id="control-conversions" value="300" min="0" step="1" aria-label="Control group conversions">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="variant-visitors" id="label-variant-visitors">Variant group visitors</label>
+          <div class="input-wrapper">
+            <input type="number" id="variant-visitors" value="10000" min="0" step="1" aria-label="Variant group visitors">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="variant-conversions" id="label-variant-conversions">Variant group conversions</label>
+          <div class="input-wrapper">
+            <input type="number" id="variant-conversions" value="350" min="0" step="1" aria-label="Variant group conversions">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="sig-significance" id="label-sig-significance">Significance level</label>
+          <select id="sig-significance" aria-label="Statistical significance level">
+            <option value="0.90">90% significance</option>
+            <option value="0.95" selected>95% significance</option>
+            <option value="0.99">99% significance</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Results display -->
+      <section class="results-section">
+        <h2 id="sig-results-prefix">Results</h2>
+        <div class="result-main">
+          <div class="result-item">
+            <span class="result-label" id="label-control-cr">Control conversion rate</span>
+            <span class="result-value" id="value-control-cr">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label" id="label-variant-cr">Variant conversion rate</span>
+            <span class="result-value" id="value-variant-cr">—</span>
+          </div>
+          <div class="result-item highlight">
+            <span class="result-label" id="label-sig-status">Statistical significance</span>
+            <span class="result-value-large" id="value-sig-status">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label" id="label-p-value">P-value</span>
+            <span class="result-value" id="value-p-value">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label" id="label-relative-lift">Relative lift</span>
+            <span class="result-value" id="value-relative-lift">—</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label" id="label-absolute-lift">Absolute lift</span>
+            <span class="result-value" id="value-absolute-lift">—</span>
+          </div>
+        </div>
+        <p class="significance-message" id="significance-message"></p>
+      </section>
+
+      <!-- Edge case warnings -->
+      <section class="edge-cases-section" id="edge-cases-section" style="display: none;">
+        <div id="edge-cases-content"></div>
+      </section>
+
+      <!-- Conditional callouts -->
+      <section class="callouts-section" id="sig-callouts-section" style="display: none;">
+        <h3>Reality Check</h3>
+        <div id="sig-callout-content"></div>
+      </section>
+
+      <!-- Copy button -->
+      <button class="copy-button" id="sig-copy-button">Copy results</button>
+
+      <!-- How it works -->
+      <details class="how-it-works">
+        <summary id="sig-how-it-works-title">How this works</summary>
+        <div class="how-it-works-content" id="how-it-works-content">
+          <p>This calculator uses a two-proportion z-test to determine whether the difference between your variant and control conversion rates is statistically significant.</p>
+          <p class="formula">z = (p₂ - p₁) / √[p̂(1-p̂)(1/n₁ + 1/n₂)]</p>
+          <p>Where:</p>
+          <ul>
+            <li><strong>p₁</strong> is the control conversion rate</li>
+            <li><strong>p₂</strong> is the variant conversion rate</li>
+            <li><strong>p̂</strong> is the pooled proportion: (x₁ + x₂) / (n₁ + n₂)</li>
+            <li><strong>n₁, n₂</strong> are the sample sizes for control and variant</li>
+          </ul>
+          <p>The p-value represents the probability of observing a difference at least as extreme as what you got, assuming there's no real difference between the variants. A p-value below your significance threshold (e.g., 0.05 for 95% significance) indicates a statistically significant result.</p>
+        </div>
+      </details>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built by <a href="#" target="_blank">Noah Manion</a></p>
+    </footer>
+  </div>
+
+  <script src="calculator.js"></script>
+</body>
+</html>
