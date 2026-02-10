@@ -189,6 +189,8 @@ COPY.aggressive.significance = {
     practicalImpact: "If you get {traffic} monthly visitors, this {lift}% lift means roughly {impact} additional conversions per month."
   },
   callouts: {
+    moreVisitorsNeeded: "You need about {needed} more visitors ({perGroup} per group) before this test has a prayer of reaching significance. At {dailyRate} visitors/day that's roughly {days} more days. Go get a coffee. Or twelve.",
+    moreVisitorsNeededNoRate: "You need about {needed} more visitors ({perGroup} per group) to have a shot at significance. Maybe go touch grass while you wait.",
     mismatchedSamples: "Your sample sizes are way off. Did your test break partway through or do you just hate statistical power?",
     zeroConversions: "You got zero conversions in {group}. That's not a test result, that's a cry for help.",
     conversionsExceedVisitors: "You have more conversions than visitors. That's not how math works.",
@@ -244,6 +246,8 @@ COPY.nice.significance = {
     practicalImpact: "If you maintain {traffic} monthly visitors, this {lift}% lift means approximately {impact} additional conversions per month."
   },
   callouts: {
+    moreVisitorsNeeded: "You need approximately {needed} more total visitors ({perGroup} per group) to reach statistical significance at your chosen level. At {dailyRate} visitors/day, this would take roughly {days} more days.",
+    moreVisitorsNeededNoRate: "You need approximately {needed} more total visitors ({perGroup} per group) to reach statistical significance at your chosen level.",
     mismatchedSamples: "Note: Unequal sample sizes may reduce statistical power. Consider investigating the cause.",
     zeroConversions: "Zero conversions detected in {group}. Verify tracking is implemented correctly.",
     conversionsExceedVisitors: "Conversion count exceeds visitor count. Please verify your inputs.",
@@ -464,6 +468,24 @@ function calculateSignificance(controlVisitors, controlConversions, variantVisit
     isPositive: p2 > p1,
     noDifference: false
   };
+}
+
+// Calculate required sample size per group to detect an observed difference
+function calculateRequiredSampleForEffect(p1, p2, significanceLevel, power) {
+  if (p1 === p2 || p1 <= 0 || p2 <= 0 || p1 >= 1 || p2 >= 1) return null;
+
+  const zAlphaMap = { 0.90: 1.645, 0.95: 1.96, 0.99: 2.576 };
+  const zBeta = power === 0.90 ? 1.282 : 0.842; // default 80% power
+  const zAlpha = zAlphaMap[significanceLevel] || 1.96;
+
+  const p1_term = p1 * (1 - p1);
+  const p2_term = p2 * (1 - p2);
+  const numerator = Math.pow(zAlpha + zBeta, 2) * (p1_term + p2_term);
+  const denominator = Math.pow(p2 - p1, 2);
+
+  if (denominator === 0) return null;
+
+  return Math.ceil(numerator / denominator);
 }
 
 // Approximation of normal CDF
@@ -861,6 +883,36 @@ function updateSignificanceResults() {
   const msgEl = document.getElementById('significance-message');
   if (msgEl) msgEl.textContent = message;
 
+  // Show "more visitors needed" when not significant
+  const moreVisitorsEl = document.getElementById('more-visitors-message');
+  if (moreVisitorsEl) {
+    if (!results.isSignificant && !results.noDifference) {
+      const requiredPerGroup = calculateRequiredSampleForEffect(
+        results.controlRate, results.variantRate, significanceLevel, 0.80
+      );
+      if (requiredPerGroup) {
+        const currentPerGroup = Math.max(controlVisitors, variantVisitors);
+        const additionalPerGroup = Math.max(0, requiredPerGroup - currentPerGroup);
+        const additionalTotal = additionalPerGroup * 2;
+
+        if (additionalTotal > 0) {
+          const copy = getCurrentCopy().significance?.callouts;
+          const msgTemplate = copy?.moreVisitorsNeededNoRate || 'You need approximately {needed} more total visitors ({perGroup} per group).';
+          moreVisitorsEl.textContent = msgTemplate
+            .replace('{needed}', formatNumber(additionalTotal))
+            .replace('{perGroup}', formatNumber(additionalPerGroup));
+          moreVisitorsEl.style.display = 'block';
+        } else {
+          moreVisitorsEl.style.display = 'none';
+        }
+      } else {
+        moreVisitorsEl.style.display = 'none';
+      }
+    } else {
+      moreVisitorsEl.style.display = 'none';
+    }
+  }
+
   // Track calculation completion
   if (typeof gtag !== 'undefined') {
     gtag('event', 'calculation_complete', {
@@ -904,6 +956,12 @@ function clearSignificanceResults() {
 
   const msgEl = document.getElementById('significance-message');
   if (msgEl) msgEl.textContent = '';
+
+  const moreVisitorsEl = document.getElementById('more-visitors-message');
+  if (moreVisitorsEl) {
+    moreVisitorsEl.textContent = '';
+    moreVisitorsEl.style.display = 'none';
+  }
 }
 
 function displayEdgeCases(edgeCases) {

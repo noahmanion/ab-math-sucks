@@ -175,6 +175,7 @@ sub {
 
 .toggle-container {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   gap: 1rem;
   white-space: nowrap;
@@ -353,6 +354,15 @@ select ~ .input-suffix {
   background-color: var(--bg-color);
   border-left: 4px solid var(--accent-color);
   margin: 0;
+}
+
+.more-visitors-message {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-color);
+  border-left: 4px solid var(--text-secondary);
+  margin: 0.5rem 0 0 0;
 }
 
 /* ============================================================================
